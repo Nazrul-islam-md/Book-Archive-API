@@ -1,19 +1,20 @@
 document.getElementById('button-search').addEventListener('click', function(){
     const inputField = document.getElementById('input-field');
     const inputFieldText = inputField.value;
-    console.log(inputFieldText);
     inputField.value = '';
     const url = `https://openlibrary.org/search.json?q=${inputFieldText}`;
     // display spinner
     document.getElementById('spinner').style.display = 'block';
     fetch(url)
     .then(res => res.json())
-    .then(data => displayBook(data.docs))
+    .then(data => displayBook(data))
     // .catch(error => console.log('Please insert a valid word'))
 })
 
-const displayBook = books => {
-    
+const displayBook = data => {
+    const totalData = document.getElementById('total-data');
+    totalData.innerText = `Total Data Found: ${data.numFound}`;
+    const books = data.docs;
     const cardHolder = document.getElementById('card-holder');
     cardHolder.textContent = '';
     books.forEach(book => {
